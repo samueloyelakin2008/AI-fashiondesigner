@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Fashion Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg-dark: #1a1b26;
+    --text-light: #e0e6f0;
+    --primary-blue: #4a90e2;
+    --primary-purple: #7b4af2;
+    --card-bg: #2c2f48;
+    --border-color: #4a5568;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
+  }
+
+  /* Futuristic animated gradient background */
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(270deg, #1a1b26, #2c2f48, #1a1b26);
+    background-size: 600% 600%;
+    animation: gradientAnimation 20s ease infinite;
+    color: var(--text-light);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  @keyframes gradientAnimation {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+
+  /* Container with glowing animated border */
+  .container {
+    position: relative;
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    width: 90%;
+    max-width: 600px;
+    box-sizing: border-box;
+    box-shadow:
+      0 2px 6px var(--shadow-light),
+      0 8px 20px var(--shadow-medium);
+    border: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  /* Glowing border effect using :before pseudo-element */
+  .container::before {
+    content: '';
+    position: absolute;
+    top: -5px; bottom: -5px; left: -5px; right: -5px;
+    border-radius: 22px;
+    background: linear-gradient(45deg, #ff3ec7, #3ec7ff, #fffa3e, #3effa9, #ff3e3e, #3e3eff);
+    background-size: 600% 600%;
+    animation: glowBorder 15s linear infinite;
+    filter: blur(10px);
+    opacity: 0.75;
+    z-index: -1;
+  }
+
+  @keyframes glowBorder {
+    0% {background-position: 0% 50%;}
+    25% {background-position: 50% 100%;}
+    50% {background-position: 100% 50%;}
+    75% {background-position: 50% 0%;}
+    100% {background-position: 0% 50%;}
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  /* Heading gradient text with smooth animation */
+  h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(90deg, #4a90e2, #7b4af2, #ff3ec7);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textGradient 8s ease infinite;
+    user-select: none;
+  }
+
+  @keyframes textGradient {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #a0a6b7;
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 1.2rem;
+    margin-top: 1.2rem;
+    border-radius: 14px;
+    border: 1.5px solid var(--border-color);
+    font-size: 1.1rem;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    box-sizing: border-box;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    resize: vertical;
+    min-height: 140px;
+    box-shadow: inset 0 3px 8px rgba(255, 255, 255, 0.07);
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Textarea focus with glowing border */
+  textarea:focus {
+    outline: none;
+    border-color: #7b4af2;
+    box-shadow: 0 0 14px 3px #7b4af2;
+  }
+
+  button {
+    width: 100%;
+    padding: 1.2rem;
+    margin-top: 1.8rem;
+    border-radius: 14px;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--primary-blue), var(--primary-purple));
+    color: white;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    box-shadow:
+      0 6px 16px rgba(74, 144, 226, 0.7);
+    user-select: none;
+  }
+
+  /* Button hover with glowing effect */
+  button:hover:not(:disabled) {
+    opacity: 1;
+    transform: translateY(-4px);
+    box-shadow:
+      0 0 18px 4px #7b4af2,
+      0 0 28px 8px #4a90e2;
+  }
+
+  button:disabled {
+    background: var(--border-color);
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  #result {
+    margin-top: 2.5rem;
+    background: var(--bg-dark);
+    padding: 1.8rem;
+    border-radius: 14px;
+    box-shadow: inset 0 3px 14px rgba(0, 0, 0, 0.25);
+    white-space: pre-wrap;
+    font-size: 1.1rem;
+    color: #c9d0da;
+    min-height: 100px;
+    border: 1.5px solid var(--border-color);
+    line-height: 1.7;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .container {
+      padding: 1.5rem 2rem;
+      margin: 1rem;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+    }
+
+    p {
+      font-size: 1rem;
+      max-width: 100%;
+      padding: 0 1rem;
+      color:black;
+    }
+
+    textarea {
+      font-size: 1rem;
+      min-height: 120px;
+    }
+
+    button {
+      padding: 1rem;
+      font-size: 1.1rem;
+    }
+
+    #result {
+      font-size: 1rem;
+      min-height: 80px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container" role="main" aria-label="AI Fashion Designer Interface">
+  <header>
+    <h1>AI Fashion Designer</h1>
+    <p style="color:black;">Describe your fashion idea or concept to get personalized advice.</p>
+  </header>
+  <textarea id="prompt" aria-label="Fashion idea input" placeholder="e.g., 'Design a futuristic evening gown for a gala event, focusing on metallic accents and flowing silhouettes.'"></textarea>
+  <button id="generateBtn" disabled aria-disabled="true">Generate Fashion Suggestions</button>
+  <div id="result" aria-live="polite" aria-atomic="true">Enter your idea and click 'Generate' to see suggestions.</div>
+</div>
+
+<script>
+  const promptInput = document.getElementById('prompt');
+  const generateBtn = document.getElementById('generateBtn');
+  const resultDiv = document.getElementById('result');
+
+  // Replace with your actual Gemini API key
+  const GEMINI_API_KEY = 'AIzaSyC2XatvnhA7Y-lgjOhDQYWhWtMxXAVJPWM';
+  const GEMINI_API_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+  function updateButtonState() {
+    const hasText = promptInput.value.trim().length > 0;
+    generateBtn.disabled = !hasText;
+    generateBtn.setAttribute('aria-disabled', !hasText);
+  }
+
+  promptInput.addEventListener('input', updateButtonState);
+
+  generateBtn.addEventListener('click', async () => {
+    generateBtn.disabled = true;
+    generateBtn.setAttribute('aria-disabled', 'true');
+    resultDiv.textContent = 'Generating fashion suggestions... Please wait.';
+
+    let promptText = promptInput.value.trim();
+
+    if (!promptText) {
+      promptText = "Generate a stylish and innovative fashion outfit concept for a modern woman.";
+    }
+
+    const requestBody = {
+      contents: [{
+        parts: [{ text: promptText }]
+      }]
+    };
+
+    try {
+      const response = await fetch(GEMINI_API_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`API error: ${response.status} - ${errorData.error.message || 'Unknown error'}`);
+      }
+
+      const data = await response.json();
+      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No suggestions generated. Try a different prompt.';
+      resultDiv.textContent = aiText;
+    } catch (error) {
+      console.error('Error generating suggestions:', error);
+      resultDiv.textContent = `Error generating suggestions: ${error.message || 'Please check your API key and network connection.'}`;
+    } finally {
+      generateBtn.disabled = false;
+      generateBtn.setAttribute('aria-disabled', 'false');
+    }
+  });
+
+  updateButtonState();
+</script>
+</body>
+</html>
